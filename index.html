@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Vite + Lit + TS</title>
+        <script type="module" src="/src/guh-editor.ts"></script>
+    </head>
+    <body>
+        <guh-editor autoFocus='true' value='**bold**' readonly='true'> </guh-editor>
+
+        <button id='btn'>click me</button>
+        <button id='clear-btn'>clear</button>
+
+        <script>
+            const editor = document.querySelector('guh-editor')
+            editor.uploadMedia = (files) => {
+                return files.map((file) => {
+                    console.log(file)
+                    return {
+                        alt: 'upload',
+                        url: 'url',
+                    }
+                })
+            }
+
+            editor.addEventListener('change', (e) => {
+                console.log('change event', e.detail.value)
+            })
+
+            document.getElementById('btn').addEventListener('click', () => {
+                console.log('button clicked')
+                editor.value = 'fuck'
+            })
+            document.getElementById('clear-btn').addEventListener('click', () => {
+                editor.clear()
+            })
+        </script>
+    </body>
+</html>

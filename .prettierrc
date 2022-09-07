@@ -1,0 +1,8 @@
+{
+    "singleQuote": true,
+    "trailingComma": "all",
+    "printWidth": 100,
+    "pluginSearchDirs": ["."],
+    "tabWidth": 4,
+    "quoteProps": "as-needed"
+}
