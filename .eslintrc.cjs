@@ -71,6 +71,8 @@ module.exports = {
                 '@typescript-eslint/no-unused-vars': 'warn',
                 'require-await': 'off',
                 '@typescript-eslint/require-await': 'error',
+                // doesn't play well with lit @event handlers
+                '@typescript-eslint/unbound-method': 'off'
             },
         },
     ],
@@ -130,10 +132,8 @@ module.exports = {
         'default-param-last': 'error',
         eqeqeq: 'error',
         'func-names': ['warn', 'never'],
-        'func-style': ['warn', 'declaration'],
         'no-case-declarations': 'warn',
         'no-delete-var': 'error',
-        'no-else-return': 'warn',
         'no-extend-native': 'warn',
         'no-extra-bind': 'error',
         'no-extra-boolean-cast': 'warn',

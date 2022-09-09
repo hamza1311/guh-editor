@@ -1,0 +1,21 @@
+@use 'src/styles' as styles;
+
+.editor-wrapper {
+    display: flex;
+    flex-direction: column;
+    background-color: styles.$bg-color;
+
+    .cm-editor {
+        background-color: styles.$editor-bg-color;
+    }
+    #cm-container {
+        background-color: styles.$bg-color-darker;
+        padding: 0.3rem;
+    }
+}
+
+.upload-text {
+    padding: 0.5rem 1rem;
+    background-color: styles.$bg-color;
+    border-radius: 0 0 1rem 1rem;
+}

@@ -1,0 +1,17 @@
+@import "highlight.js/styles/github.css";
+
+* {
+    margin: 0;
+}
+
+.preview-wrapper {
+    min-height: 100px;
+    background-color: #8f8f8f33;
+    border-radius: 0 0 1rem 1rem;
+    padding: 0.5em;
+}
+
+blockquote {
+    border-left: 3px solid black;
+    padding-left: 1em;
+}

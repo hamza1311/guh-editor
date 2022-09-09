@@ -5,6 +5,8 @@ export default defineConfig({
     build: {
         lib: {
             entry: 'src/guh-editor.ts',
+            name: 'Guh',
+            fileName: 'guh',
             formats: ['es'],
         },
         rollupOptions: {
