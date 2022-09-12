@@ -4,7 +4,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
     build: {
         lib: {
-            entry: 'src/guh-editor.ts',
+            entry: 'src/index.ts',
             name: 'Guh',
             fileName: 'guh',
             formats: ['es'],
