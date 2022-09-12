@@ -1,5 +1,10 @@
 @use 'src/styles' as styles;
 
+#guh-wrapper {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
 .editor-wrapper {
     display: flex;
     flex-direction: column;
@@ -7,6 +12,8 @@
 
     .cm-editor {
         background-color: styles.$editor-bg-color;
+        resize: vertical;
+        overflow: hidden;
     }
     #cm-container {
         background-color: styles.$bg-color-darker;

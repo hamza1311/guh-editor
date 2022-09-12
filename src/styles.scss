@@ -1,4 +1,4 @@
-$bg-color: #8f8f8f33;
-$bg-color-darker: #8f8f8f55;
-$editor-bg-color: #8f8f8f77;
+$bg-color: var(--bg-color, white);
+$bg-color-darker: var(--bg-color-darker, white);
+$editor-bg-color: var(--editor-bg-color, white);
 

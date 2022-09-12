@@ -4,6 +4,7 @@
         <meta charset="UTF-8" />
         <link rel="icon" type="image/svg+xml" href="/vite.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="https://fonts.googleapis.com/css?family=Material+Icons&amp;display=block" rel="stylesheet">
         <title>Vite + Lit + TS</title>
         <script type="module" src="/src/index.ts"></script>
         <script>
@@ -173,15 +174,15 @@ This line is only separated by a single newline, so it's a separate line in the 
         </script>
     </head>
     <body>
-    <div style='width: 70%'>
+    <div style='width: 70%; margin: 1rem'>
         <guh-editor id='huh' autoFocus='true' value='**bold**'> </guh-editor>
     </div>
-        <button id='btn'>click me</button>
-        <button id='clear-btn'>clear</button>
+<!--        <button id='btn'>click me</button>-->
+<!--        <button id='clear-btn'>clear</button>-->
 
         <script>
             const editor = document.getElementById('huh')
-            editor.value = 'BASE_CONTENT.trim()'
+            editor.value = BASE_CONTENT.trim();
             editor.uploadMedia = (files) => {
                 return files.map((file) => {
                     console.log(file)

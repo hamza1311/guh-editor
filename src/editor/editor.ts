@@ -59,13 +59,18 @@ const defaultTheme = EditorView.theme({
         fontSize: 'inherit',
         overflow: 'auto',
         minHeight: '100px',
-        maxHeight: '500px',
+        height: '300px',
     },
     '.cm-content': {
         overflow: 'auto',
         minHeight: '100px',
         padding: '4px 4px',
         flex: '1',
+    },
+    '.cm-line': {
+        // todo: add a line break when the line exceeds parent's width
+        // overflow: 'hidden',
+        // overflowWrap: 'break-word',
     },
 });
 
@@ -98,6 +103,46 @@ export class Editor extends LitElement {
     @property({ attribute: false })
     theme: Extension = defaultTheme;
 
+    private resizeObserver: ResizeObserver = new ResizeObserver((e) => {
+        console.log('resize', e);
+        this.editorView!.scrollDOM.style.height = e[0].target.scrollHeight + 'px'
+        console.log()
+        const tx = this.editorView?.update([]);
+        tx && this.editorView?.dispatch(tx)
+    });
+
+    readonly format = {
+        bold(view: EditorView) {
+            return this.run(view, '**');
+        },
+        italics(view: EditorView) {
+            return this.run(view, '_');
+        },
+        code(view: EditorView) {
+            return this.run(view, '`');
+        },
+        link(view: EditorView) {
+            return this.run(view, '[', '](url)');
+        },
+        run(view: EditorView, left: string, right: string = left): boolean {
+            const range = view.state.selection.ranges[0];
+            const text = view.state.doc.sliceString(range.from, range.to);
+            const insert = `${left}${text}${right}`;
+
+            const transaction = view.state.update({
+                changes: {
+                    ...range,
+                    insert,
+                },
+                selection: {
+                    anchor: text.length === 0 ? range.from + left.length : range.from + insert.length,
+                },
+            });
+            view.dispatch(transaction);
+            return true;
+        }
+    }
+
     /* Preview or edit tab */
     @state()
     private _tab: Tab = 'edit';
@@ -126,19 +171,19 @@ export class Editor extends LitElement {
                     },
                     {
                         key: 'Ctrl-b',
-                        run: (view) => this.formatText(view, '**'),
+                        run: (view) => this.format.bold(view),
                     },
                     {
                         key: 'Ctrl-i',
-                        run: (view) => this.formatText(view, '_'),
+                        run: (view) => this.format.italics(view),
                     },
                     {
                         key: 'Ctrl-e',
-                        run: (view) => this.formatText(view, '`'),
+                        run: (view) => this.format.code(view),
                     },
                     {
                         key: 'Ctrl-k',
-                        run: (view) => this.formatText(view, '[', '](url)'),
+                        run: (view) => this.format.link(view),
                     },
                 ]),
             ],
@@ -158,6 +203,7 @@ export class Editor extends LitElement {
         if (this.autoFocus) {
             requestAnimationFrame(() => this.editorView?.focus());
         }
+        this.resizeObserver.observe(this.editorView.dom)
     }
 
     requestUpdate(name?: PropertyKey, oldValue?: unknown, options?: PropertyDeclaration) {
@@ -169,7 +215,9 @@ export class Editor extends LitElement {
 
     disconnectedCallback() {
         super.disconnectedCallback();
-        this.editorView?.destroy();
+        if (!this.editorView) { return }
+        this.resizeObserver.unobserve(this.editorView.dom)
+        this.editorView.destroy();
     }
 
     private onTabSelect(e: CustomEvent<{ tab: Tab }>) {
@@ -179,42 +227,27 @@ export class Editor extends LitElement {
         }
     }
 
-    private formatText(view: EditorView, left: string, right: string = left): boolean {
-        const range = view.state.selection.ranges[0];
-        const text = view.state.doc.sliceString(range.from, range.to);
-        const insert = `${left}${text}${right}`;
-
-        const transaction = view.state.update({
-            changes: {
-                ...range,
-                insert,
-            },
-            selection: {
-                anchor: text.length === 0 ? range.from + left.length : range.from + insert.length,
-            },
-        });
-        view.dispatch(transaction);
-        return true;
-    }
-
-    render() {
-        const toolbar = html`
-            <guh-toolbar @tabSelect='${this.onTabSelect}'></guh-toolbar>`;
-        const preview = html`<guh-preview .markdown='${this.editorView?.state.doc.toString()}'></guh-preview>`;
-        const edit = html`
-            <div class='editor-wrapper'>
-                ${this.editorElement}
-            </div>
-            <div class='upload-text'>
-                Upload files by pasting or dragging and dropping them.
-            </div>
-        `
-        const tab = this._tab === 'edit' ? edit : preview
-
-        return html`
-            ${toolbar}
-            ${tab}
-        `;
+    private onToolbarFormatButtonClick(e: CustomEvent<{ button: string }>) {
+        const view = this.editorView
+        if (view === undefined) { return }
+        switch (e.detail.button) {
+            case 'bold': {
+                this.format.bold(view)
+                break
+            }
+            case 'italics': {
+                this.format.italics(view)
+                break
+            }
+            case 'code': {
+                this.format.code(view)
+                break
+            }
+            case 'link': {
+                this.format.link(view)
+                break
+            }
+        }
     }
 
     private drop(event: DragEvent) {
@@ -281,6 +314,35 @@ export class Editor extends LitElement {
             });
             this.dispatchEvent(event);
         }
+    }
+
+    render() {
+        const toolbar = html`
+            <guh-toolbar 
+                @tabSelect='${this.onTabSelect}'
+                @formatButtonClick=${this.onToolbarFormatButtonClick}
+            ></guh-toolbar>`;
+        const preview = html`
+            <guh-preview 
+                .markdown='${this.editorView?.state.doc.toString() ?? ""}'
+            ></guh-preview>
+        `;
+        const edit = html`
+            <div class='editor-wrapper'>
+                ${this.editorElement}
+            </div>
+            <div class='upload-text'>
+                Upload files by pasting or dragging and dropping them.
+            </div>
+        `
+        const tab = this._tab === 'edit' ? edit : preview
+
+        return html`
+            <div id='guh-wrapper'>
+                ${toolbar}
+                ${tab}
+            </div>
+        `;
     }
 
     static styles = unsafeCSS(editorStyles)

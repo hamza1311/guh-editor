@@ -21,8 +21,9 @@
         "resolveJsonModule": true,
         "useUnknownInCatchVariables": true,
         "skipLibCheck": true,
-        "downlevelIteration": true
+        "downlevelIteration": true,
+        "types": ["vite/client"]
     },
     "include": ["src/**/*.ts"],
-    "references": [{ "path": "./tsconfig.node.json" }]
+    "references": [{ "path": "./tsconfig.node.json" }],
 }
