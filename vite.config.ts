@@ -9,8 +9,6 @@ export default defineConfig({
             fileName: 'guh',
             formats: ['es'],
         },
-        rollupOptions: {
-            external: /^lit/,
-        },
+        rollupOptions: {},
     },
 });

@@ -38,6 +38,9 @@ jobs:
         run: |
           yarn install
           yarn build
+          
+          sed -i -e 's/\/src\/index.ts/dist\/guh.js/g' ./index.html
+          cp index.html dist/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
