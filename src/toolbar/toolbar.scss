@@ -9,17 +9,15 @@ $width: 5rem;
 nav {
     display: flex;
     justify-content: space-between;
-    padding: 0.5rem 0 0;
+    padding: 0.5rem;
     background-color: styles.$bg-color;
 
     --mdc-theme-primary: currentColor;
 }
 
-
 .formatting {
     --mdc-icon-button-size: 32px;
     --mdc-icon-size: 20px;
-    padding-right: 0.5rem;
 
     .tooltip {
         display: inline;
@@ -32,7 +30,7 @@ nav {
             &:after {
                 $font-size: 0.8em;
 
-                background: rgba(0,0,0,.8);
+                background: rgba(0, 0, 0, 0.8);
                 border-radius: 0.5em;
                 color: $secondary-color;
                 //left: -1em;
@@ -52,7 +50,7 @@ nav {
                 border-color: #111 transparent;
                 border-width: 0 0.4em 0.4em;
                 top: 1.1em;
-                content: "";
+                content: '';
                 display: block;
                 left: 0.1rem;
                 position: absolute;
@@ -61,11 +59,3 @@ nav {
         }
     }
 }
-
-/*
-svg {
-    height: 1.5rem;
-    width: 1.5rem;
-    padding-right: 0.5rem;
-}
-*/

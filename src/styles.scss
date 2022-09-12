@@ -2,3 +2,10 @@ $bg-color: var(--bg-color, white);
 $bg-color-darker: var(--bg-color-darker, white);
 $editor-bg-color: var(--editor-bg-color, white);
 
+@mixin all-headings {
+    @for $index from 1 through 6 {
+        h#{$index} {
+            @content;
+        }
+    }
+}

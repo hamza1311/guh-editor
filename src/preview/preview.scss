@@ -1,18 +1,52 @@
-@use "../styles" as styles;
-@import "highlight.js/styles/github.css";
+@use '../styles' as styles;
+@import 'highlight.js/styles/github.css';
 
 * {
     margin: 0;
 }
 
 .preview-wrapper {
-    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    min-height: 15rem;
     background-color: styles.$bg-color;
     border-radius: 0 0 1rem 1rem;
     padding: 0.5em;
 }
 
 blockquote {
-    border-left: 3px solid black;
-    padding-left: 1em;
+    border-left: 4px solid var(--blockquote-border-color, #d0d7de);
+    color: var(--blockquote-color, #24292f);
+    padding-left: 1rem;
+}
+
+hr {
+    margin: 0.5rem 0;
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 2px solid #7a8086;
+}
+
+table,
+tr,
+td,
+th {
+    border: 2px solid rgb(122, 128, 134);
+    border-collapse: collapse;
+    padding: 0.3rem;
+    margin: 0.3rem 0;
+}
+
+//---- Usage ----------------
+@include styles.all-headings {
+    margin: 0.5rem 0;
+}
+
+pre,
+.hljs {
+    background: #f6f8fa none repeat scroll 0 0 !important;
+    padding: 1em;
 }

@@ -4,8 +4,16 @@
         <meta charset="UTF-8" />
         <link rel="icon" type="image/svg+xml" href="/vite.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link href="https://fonts.googleapis.com/css?family=Material+Icons&amp;display=block" rel="stylesheet">
+        <link
+            href="https://fonts.googleapis.com/css?family=Material+Icons&amp;display=block"
+            rel="stylesheet"
+        />
         <title>Vite + Lit + TS</title>
+        <style>
+            body {
+                font-family: sans-serif;
+            }
+        </style>
         <script type="module" src="/src/index.ts"></script>
         <script>
             const BASE_CONTENT = `
@@ -170,40 +178,40 @@ This line is separated from the one above by two newlines, so it will be a *sepa
 
 This line is also a separate paragraph, but...
 This line is only separated by a single newline, so it's a separate line in the *same paragraph*.
-            `
+            `;
         </script>
     </head>
     <body>
-    <div style='width: 70%; margin: 1rem'>
-        <guh-editor id='huh' autoFocus='true' value='**bold**'> </guh-editor>
-    </div>
-<!--        <button id='btn'>click me</button>-->
-<!--        <button id='clear-btn'>clear</button>-->
+        <div style="width: 70%; margin: 1rem">
+            <guh-editor id="huh" autoFocus="true" value="**bold**"> </guh-editor>
+        </div>
+        <!--        <button id='btn'>click me</button>-->
+        <!--        <button id='clear-btn'>clear</button>-->
 
         <script>
-            const editor = document.getElementById('huh')
+            const editor = document.getElementById('huh');
             editor.value = BASE_CONTENT.trim();
             editor.uploadMedia = (files) => {
                 return files.map((file) => {
-                    console.log(file)
+                    console.log(file);
                     return {
                         alt: 'upload',
                         url: 'url',
-                    }
-                })
-            }
+                    };
+                });
+            };
 
             editor.addEventListener('change', (e) => {
-                console.log('change event', e.detail.value)
-            })
+                console.log('change event', e.detail.value);
+            });
 
             document.getElementById('btn').addEventListener('click', () => {
-                console.log('button clicked')
-                editor.value = 'fuck'
-            })
+                console.log('button clicked');
+                editor.value = 'fuck';
+            });
             document.getElementById('clear-btn').addEventListener('click', () => {
-                editor.value = ''
-            })
+                editor.value = '';
+            });
         </script>
     </body>
 </html>

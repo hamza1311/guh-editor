@@ -72,7 +72,7 @@ module.exports = {
                 'require-await': 'off',
                 '@typescript-eslint/require-await': 'error',
                 // doesn't play well with lit @event handlers
-                '@typescript-eslint/unbound-method': 'off'
+                '@typescript-eslint/unbound-method': 'off',
             },
         },
     ],

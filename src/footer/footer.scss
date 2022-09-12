@@ -1,0 +1,44 @@
+@use 'src/styles' as styles;
+
+@mixin center-align {
+    display: flex;
+    align-items: center;
+}
+
+footer {
+    @include center-align;
+    padding: 0 0.5rem;
+
+    font-size: 0.8rem;
+
+    a {
+        @include center-align;
+        gap: 0.5rem;
+        text-decoration: none;
+        color: inherit;
+
+        svg {
+            height: 1.2rem;
+            width: 1.2rem;
+        }
+    }
+}
+.upload-text {
+    padding: 0.5rem 1rem;
+    background-color: styles.$bg-color;
+    border-radius: 0 0 1rem 1rem;
+}
+
+// ------
+
+hr {
+    margin-left: 1rem;
+    margin-right: 0;
+
+    flex-shrink: 0;
+    border-width: 0 2px 0 0;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.22);
+    height: auto;
+    align-self: stretch;
+}
