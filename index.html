@@ -8,7 +8,7 @@
             href="https://fonts.googleapis.com/css?family=Material+Icons&amp;display=block"
             rel="stylesheet"
         />
-        <title>Vite + Lit + TS</title>
+        <title>Guh Editor Demp</title>
         <style>
             body {
                 font-family: sans-serif;
@@ -185,8 +185,6 @@ This line is only separated by a single newline, so it's a separate line in the 
         <div style="width: 70%; margin: 1rem">
             <guh-editor id="huh" autoFocus="true" value="**bold**"> </guh-editor>
         </div>
-        <!--        <button id='btn'>click me</button>-->
-        <!--        <button id='clear-btn'>clear</button>-->
 
         <script>
             const editor = document.getElementById('huh');
@@ -203,14 +201,6 @@ This line is only separated by a single newline, so it's a separate line in the 
 
             editor.addEventListener('change', (e) => {
                 console.log('change event', e.detail.value);
-            });
-
-            document.getElementById('btn').addEventListener('click', () => {
-                console.log('button clicked');
-                editor.value = 'fuck';
-            });
-            document.getElementById('clear-btn').addEventListener('click', () => {
-                editor.value = '';
             });
         </script>
     </body>

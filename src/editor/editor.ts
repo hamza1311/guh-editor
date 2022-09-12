@@ -69,7 +69,7 @@ const defaultTheme = EditorView.theme({
         fontFamily: 'inherit',
         fontSize: 'inherit',
         minHeight: '15rem',
-        maxHeight: '500px',
+        height: '18rem',
     },
     '.cm-content': {
         minHeight: '15rem',
