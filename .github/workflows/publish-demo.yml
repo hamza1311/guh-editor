@@ -39,7 +39,7 @@ jobs:
           yarn install
           yarn build
           
-          sed -i -e 's/\/src\/index.ts/dist\/guh.js/g' ./index.html
+          sed -i -e 's/\/src\/index.ts/guh.js/g' ./index.html
           cp index.html dist/
 
       - name: Upload artifact
