@@ -12,6 +12,8 @@
 
     .cm-editor {
         background-color: styles.$editor-bg-color;
+        resize: vertical;
+        overflow: hidden;
     }
     #cm-container {
         background-color: styles.$bg-color-darker;

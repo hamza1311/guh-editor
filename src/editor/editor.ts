@@ -145,6 +145,7 @@ export class Editor extends LitElement {
                 EditorView.updateListener.of((update) => this.onEditorUpdate(update)),
                 EditorState.readOnly.of(this.readonly),
                 EditorView.domEventHandlers({ drop, paste }),
+                EditorView.lineWrapping,
                 this.theme,
                 keymap.of([
                     {
