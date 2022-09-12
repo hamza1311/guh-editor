@@ -44,34 +44,20 @@ export const DEFAULT_EXTENSIONS = [
 ];
 
 const defaultTheme = EditorView.theme({
-    '&': {
-    },
     '&.cm-focused': {
-        outline: 'none !important',
-        border: '1px solid blue !important',
-    },
-    '.cm-focused': {
-        margin: '0.5em',
-        border: '10px solid red',
+        outline: '1px solid blue !important',
     },
     '.cm-scroller': {
         fontFamily: 'inherit',
         fontSize: 'inherit',
-        overflow: 'auto',
         minHeight: '100px',
-        height: '300px',
+        maxHeight: '500px',
     },
     '.cm-content': {
-        overflow: 'auto',
         minHeight: '100px',
         padding: '4px 4px',
         flex: '1',
-    },
-    '.cm-line': {
-        // todo: add a line break when the line exceeds parent's width
-        // overflow: 'hidden',
-        // overflowWrap: 'break-word',
-    },
+    }
 });
 
 @customElement('guh-editor')
@@ -104,11 +90,7 @@ export class Editor extends LitElement {
     theme: Extension = defaultTheme;
 
     private resizeObserver: ResizeObserver = new ResizeObserver((e) => {
-        console.log('resize', e);
         this.editorView!.scrollDOM.style.height = e[0].target.scrollHeight + 'px'
-        console.log()
-        const tx = this.editorView?.update([]);
-        tx && this.editorView?.dispatch(tx)
     });
 
     readonly format = {
@@ -204,6 +186,9 @@ export class Editor extends LitElement {
             requestAnimationFrame(() => this.editorView?.focus());
         }
         this.resizeObserver.observe(this.editorView.dom)
+        requestAnimationFrame(() => this.editorView?.scrollDOM.addEventListener('click', () => {
+            this.editorView?.focus()
+        }));
     }
 
     requestUpdate(name?: PropertyKey, oldValue?: unknown, options?: PropertyDeclaration) {
