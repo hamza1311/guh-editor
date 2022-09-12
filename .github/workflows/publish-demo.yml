@@ -1,24 +1,49 @@
-name: Build and Deploy
-on: [push]
+name: Build and Deploy to Pages
+
+on:
+  push:
+    branches: [ "master" ]
 
 permissions:
-    contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
-    build-and-deploy:
-        concurrency: ci-${{ github.ref }}
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout 🛎️
-              uses: actions/checkout@v3
+  build-and-deploy:
+    name: Build & Deploy
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-            - name: Install and Build 🔧
-              run: |
-                  yarn install
-                  yarn build
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
 
-            - name: Deploy 🚀
-              uses: JamesIves/github-pages-deploy-action@v4
-              with:
-                  folder: dist
-                  single-commit: true
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+
+      - name: Install and Build
+        run: |
+          yarn install
+          yarn build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: './dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
