@@ -1,50 +1,20 @@
 {
-    "name": "guh",
+    "name": "root",
     "private": true,
-    "version": "0.0.0",
-    "type": "module",
-    "main": "dist/guh.js",
-    "exports": {
-        ".": "./dist/guh.js"
-    },
-    "types": "types/guh-editor.d.ts",
-    "files": [
-        "dist",
-        "types"
-    ],
     "scripts": {
-        "dev": "vite",
-        "build": "tsc && vite build",
         "lint": "prettier --check . && eslint .",
         "format": "prettier --write ."
     },
-    "dependencies": {
-        "@codemirror/autocomplete": "^6.0.0",
-        "@codemirror/commands": "^6.0.0",
-        "@codemirror/lang-markdown": "^6.0.1",
-        "@codemirror/language": "^6.0.0",
-        "@codemirror/language-data": "^6.1.0",
-        "@codemirror/search": "^6.0.0",
-        "@codemirror/state": "^6.0.0",
-        "@codemirror/view": "^6.0.0",
-        "@lezer/markdown": "^1.0.1",
-        "@material/mwc-button": "^0.27.0",
-        "@material/mwc-icon-button": "^0.27.0",
-        "highlight.js": "^11.6.0",
-        "lit": "^2.3.1",
-        "marked": "^4.1.0"
-    },
+    "workspaces": [
+        "packages/*"
+    ],
     "devDependencies": {
-        "@types/marked": "^4.0.7",
+        "lerna": "^5.5.1",
         "@typescript-eslint/eslint-plugin": "^5.36.2",
         "@typescript-eslint/parser": "^5.36.2",
         "eslint": "^8.23.0",
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-import": "^2.26.0",
-        "eslint-plugin-lit": "^1.6.1",
-        "prettier": "^2.7.1",
-        "sass": "^1.54.8",
-        "typescript": "^4.6.4",
-        "vite": "^3.1.0"
+        "prettier": "^2.7.1"
     }
 }

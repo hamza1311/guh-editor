@@ -5,8 +5,8 @@ node_modules
 .env
 .env.*
 !.env.example
-/dist
-/types
+dist
+packages/guh/types
 
 
 # Ignore files for PNPM, NPM and YARN
