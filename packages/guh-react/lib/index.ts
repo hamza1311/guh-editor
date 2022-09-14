@@ -1,3 +1,4 @@
-import App from './App';
+import Guh from './App';
+export * from 'guh'
 
-export { App };
+export { Guh };
