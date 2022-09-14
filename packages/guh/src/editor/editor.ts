@@ -61,25 +61,19 @@ export const DEFAULT_EXTENSIONS = [
     ]),
 ];
 
-const defaultTheme = EditorView.theme({
-    '&.cm-focused': {
-        outline: '1px solid blue !important',
-    },
-    '.cm-scroller': {
-        fontFamily: 'inherit',
-        fontSize: 'inherit',
-        minHeight: '15rem',
-        height: '18rem',
-    },
-    '.cm-content': {
-        minHeight: '15rem',
-        padding: '4px 4px',
-        flex: '1',
-    },
-});
+export interface EditorProps {
+    value?: string;
+    autoFocus?: boolean
+    readonly?: boolean
+    uploadMedia?: (files: File[]) => UploadedImage[];
+    extensions?: Extension[];
+    theme?: Extension;
+}
+
+export type ChangeEvent = CustomEvent<{ value: string }>;
 
 @customElement('guh-editor')
-export class Editor extends LitElement {
+export class Editor extends LitElement implements EditorProps {
     /*
      * Get the inner raw codemirror editor vide
      *
@@ -105,7 +99,7 @@ export class Editor extends LitElement {
     extensions: Extension[] = DEFAULT_EXTENSIONS;
 
     @property({ attribute: false })
-    theme: Extension = defaultTheme;
+    theme?: Extension;
 
     private resizeObserver: ResizeObserver = new ResizeObserver((e) => {
         if (!this.editorView) {
@@ -160,41 +154,45 @@ export class Editor extends LitElement {
         this.editorElement = document.createElement('div');
         this.editorElement.id = 'cm-container';
 
+        const extensions = [
+            ...this.extensions,
+            EditorView.updateListener.of((update) => this.onEditorUpdate(update)),
+            EditorState.readOnly.of(this.readonly),
+            EditorView.domEventHandlers({
+                drop: this.drop.bind(self),
+                paste: this.paste.bind(self),
+            }),
+            EditorView.lineWrapping,
+            keymap.of([
+                {
+                    key: 'Shift-Delete',
+                    run: deleteLine,
+                },
+                {
+                    key: 'Ctrl-b',
+                    run: (view) => this.format.bold(view),
+                },
+                {
+                    key: 'Ctrl-i',
+                    run: (view) => this.format.italics(view),
+                },
+                {
+                    key: 'Ctrl-e',
+                    run: (view) => this.format.code(view),
+                },
+                {
+                    key: 'Ctrl-k',
+                    run: (view) => this.format.link(view),
+                },
+            ]),
+        ];
+        if (this.theme) {
+            extensions.push(this.theme);
+        }
+
         this.editorView = new EditorView({
             doc: this.value,
-            extensions: [
-                ...this.extensions,
-                EditorView.updateListener.of((update) => this.onEditorUpdate(update)),
-                EditorState.readOnly.of(this.readonly),
-                EditorView.domEventHandlers({
-                    drop: this.drop.bind(self),
-                    paste: this.paste.bind(self),
-                }),
-                EditorView.lineWrapping,
-                this.theme,
-                keymap.of([
-                    {
-                        key: 'Shift-Delete',
-                        run: deleteLine,
-                    },
-                    {
-                        key: 'Ctrl-b',
-                        run: (view) => this.format.bold(view),
-                    },
-                    {
-                        key: 'Ctrl-i',
-                        run: (view) => this.format.italics(view),
-                    },
-                    {
-                        key: 'Ctrl-e',
-                        run: (view) => this.format.code(view),
-                    },
-                    {
-                        key: 'Ctrl-k',
-                        run: (view) => this.format.link(view),
-                    },
-                ]),
-            ],
+            extensions,
             parent: this.editorElement,
             root: this.shadowRoot ?? undefined,
         });
@@ -348,7 +346,7 @@ export class Editor extends LitElement {
         `;
         const tab = this._tab === 'edit' ? edit : preview;
 
-        return html` <div id="guh-wrapper">${toolbar} ${tab}</div> `;
+        return html`${toolbar} ${tab}`;
     }
 
     static styles = unsafeCSS(editorStyles);
@@ -359,3 +357,6 @@ declare global {
         'guh-editor': Editor;
     }
 }
+
+/* Codemirror types that are used in the public API */
+export type { EditorView, Extension }

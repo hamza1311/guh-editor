@@ -1,6 +1,7 @@
 @use 'src/styles' as styles;
 
-#guh-wrapper {
+:host {
+    display: block;
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 5px;
 }
@@ -18,5 +19,26 @@
     #cm-container {
         background-color: styles.$bg-color-darker;
         padding: 0.3rem;
+    }
+
+    .cm-focused {
+        outline: 1px solid var(--focused-color, blue) !important;
+    }
+
+    
+    $cm-min-height: var(--cm-min-height, 15rem);
+    $cm-initial-height: var(--cm-initial-height, 18rem);
+
+    .cm-scroller {
+        font-family: inherit;
+        font-size: inherit;
+        min-height: $cm-min-height;
+        height: $cm-initial-height;
+    }
+
+    .cm-content {
+        min-height: $cm-min-height;
+        padding: 4px 4px;
+        flex: 1;
     }
 }
