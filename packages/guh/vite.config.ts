@@ -7,7 +7,6 @@ export default defineConfig({
             entry: 'src/index.ts',
             name: 'Guh',
             fileName: 'guh',
-            formats: ['es'],
         },
         rollupOptions: {},
     },

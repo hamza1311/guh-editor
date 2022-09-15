@@ -8,7 +8,7 @@ import {
     EditorView,
     ViewUpdate,
 } from '@codemirror/view';
-import { EditorState, Extension } from '@codemirror/state';
+import { EditorState, Extension, Compartment } from '@codemirror/state';
 import {
     defaultHighlightStyle,
     syntaxHighlighting,
@@ -72,6 +72,8 @@ export interface EditorProps {
 
 export type ChangeEvent = CustomEvent<{ value: string }>;
 
+const readonly = new Compartment()
+
 @customElement('guh-editor')
 export class Editor extends LitElement implements EditorProps {
     /*
@@ -87,9 +89,19 @@ export class Editor extends LitElement implements EditorProps {
     value = '';
 
     @property({ type: Boolean })
-    autoFocus = false;
+    get autoFocus() {
+        return this._autoFocus
+    };
 
-    @property()
+    set autoFocus(val: boolean) {
+        let oldVal = this._autoFocus;
+        this._autoFocus = val;
+        this.requestUpdate('autoFocus', oldVal);
+    }
+
+    _autoFocus = false;
+
+    @property({ type: Boolean })
     readonly = false;
 
     @property({ attribute: false, type: Function })
@@ -157,7 +169,7 @@ export class Editor extends LitElement implements EditorProps {
         const extensions = [
             ...this.extensions,
             EditorView.updateListener.of((update) => this.onEditorUpdate(update)),
-            EditorState.readOnly.of(this.readonly),
+            readonly.of(EditorState.readOnly.of(this.readonly)),
             EditorView.domEventHandlers({
                 drop: this.drop.bind(self),
                 paste: this.paste.bind(self),
@@ -196,18 +208,9 @@ export class Editor extends LitElement implements EditorProps {
             parent: this.editorElement,
             root: this.shadowRoot ?? undefined,
         });
+        this.setReadOnly()
+        this.setAutoFocus()
 
-        if (this.readonly) {
-            requestAnimationFrame(() => {
-                if (this.editorView?.contentDOM) {
-                    this.editorView.contentDOM.contentEditable = 'false';
-                }
-            });
-        }
-
-        if (this.autoFocus) {
-            requestAnimationFrame(() => this.editorView?.focus());
-        }
         this.resizeObserver.observe(this.editorView.dom);
         requestAnimationFrame(() =>
             this.editorView?.scrollDOM.addEventListener('click', () => {
@@ -220,6 +223,10 @@ export class Editor extends LitElement implements EditorProps {
         super.requestUpdate(name, oldValue, options);
         if (name === 'value') {
             this.replaceValue(this.value);
+        } else if (name === 'readonly') {
+            this.setReadOnly()
+        } else if (name === 'autoFocus') {
+            this.setAutoFocus()
         }
     }
 
@@ -230,6 +237,27 @@ export class Editor extends LitElement implements EditorProps {
         }
         this.resizeObserver.unobserve(this.editorView.dom);
         this.editorView.destroy();
+    }
+
+    private setAutoFocus() {
+        if (this.autoFocus) {
+            requestAnimationFrame(() => {
+                if (!this.readonly) {
+                    this.editorView?.focus()
+                }
+            });
+        }
+    }
+    private setReadOnly() {
+        const value = this.readonly;
+        this.editorView?.dispatch({
+            effects: readonly.reconfigure(EditorState.readOnly.of(value))
+        })
+        requestAnimationFrame(() => {
+            if (this.editorView?.contentDOM) {
+                this.editorView.contentDOM.contentEditable = value ? 'false' : 'true';
+            }
+        });
     }
 
     private onTabSelect(e: CustomEvent<{ tab: Tab }>) {
@@ -321,7 +349,7 @@ export class Editor extends LitElement implements EditorProps {
         if (update.docChanged) {
             // eslint-disable-next-line @typescript-eslint/no-base-to-string
             const value = update.state.doc.toString();
-            const event = new CustomEvent('change', {
+            const event: ChangeEvent = new CustomEvent('change', {
                 bubbles: true,
                 composed: true,
                 detail: {
@@ -333,10 +361,6 @@ export class Editor extends LitElement implements EditorProps {
     }
 
     render() {
-        const toolbar = html` <guh-toolbar
-            @tabSelect="${this.onTabSelect}"
-            @formatButtonClick=${this.onToolbarFormatButtonClick}
-        ></guh-toolbar>`;
         const preview = html`
             <guh-preview .markdown="${this.editorView?.state.doc.toString() ?? ''}"></guh-preview>
         `;
@@ -346,7 +370,14 @@ export class Editor extends LitElement implements EditorProps {
         `;
         const tab = this._tab === 'edit' ? edit : preview;
 
-        return html`${toolbar} ${tab}`;
+        return html`
+            <guh-toolbar
+                    role="navigation"
+                    @tabSelect="${this.onTabSelect}"
+                    @formatButtonClick=${this.onToolbarFormatButtonClick}
+            ></guh-toolbar>
+            ${tab}
+        `;
     }
 
     static styles = unsafeCSS(editorStyles);

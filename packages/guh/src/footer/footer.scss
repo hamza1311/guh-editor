@@ -5,8 +5,9 @@
     align-items: center;
 }
 
-footer {
+:host {
     @include center-align;
+    background-color: styles.$bg-color;
     padding: 0 0.5rem;
 
     font-size: 0.8rem;

@@ -60,31 +60,29 @@ export class Toolbar extends LitElement {
         const formatButtonClick = (label: string) => () =>
             this.dispatchCustomEvent('formatButtonClick', { button: label });
         return html`
-            <nav>
-                <section class="tabs">
-                    <mwc-button
-                        label=${tab.toUpperCase()}
-                        icon=${tab}
-                        @click=${this.swapTab}
-                    ></mwc-button>
-                </section>
+            <section class="tabs">
+                <mwc-button
+                    label=${tab.toUpperCase()}
+                    icon=${tab}
+                    @click=${this.swapTab}
+                ></mwc-button>
+            </section>
 
-                <section class="formatting">
-                    <!--                    <button class="tooltip" title="Click to bold (ctrl + b)"></button>-->
-                    <mwc-icon-button @click=${formatButtonClick('bold')}
-                        >${unsafeSVG(boldIcon)}</mwc-icon-button
-                    >
-                    <mwc-icon-button @click=${formatButtonClick('italics')}
-                        >${unsafeSVG(italicsIcon)}</mwc-icon-button
-                    >
-                    <mwc-icon-button @click=${formatButtonClick('code')}
-                        >${unsafeSVG(codeIcon)}</mwc-icon-button
-                    >
-                    <mwc-icon-button @click=${formatButtonClick('link')}
-                        >${unsafeSVG(linkIcon)}</mwc-icon-button
-                    >
-                </section>
-            </nav>
+            <section class="formatting">
+                <!--<button class="tooltip" title="Click to bold (ctrl + b)"></button>-->
+                <mwc-icon-button @click=${formatButtonClick('bold')}
+                    >${unsafeSVG(boldIcon)}</mwc-icon-button
+                >
+                <mwc-icon-button @click=${formatButtonClick('italics')}
+                    >${unsafeSVG(italicsIcon)}</mwc-icon-button
+                >
+                <mwc-icon-button @click=${formatButtonClick('code')}
+                    >${unsafeSVG(codeIcon)}</mwc-icon-button
+                >
+                <mwc-icon-button @click=${formatButtonClick('link')}
+                    >${unsafeSVG(linkIcon)}</mwc-icon-button
+                >
+            </section>
         `;
     }
 

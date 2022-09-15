@@ -8,20 +8,16 @@ import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 export class Footer extends LitElement {
     render() {
         return html`
-            <footer>
-                <a
-                    href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
-                    target="_blank"
-                >
-                    ${unsafeSVG(mdIcon)} Markdown is supported
-                </a>
+            <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
+               target="_blank">
+                ${unsafeSVG(mdIcon)} Markdown is supported
+            </a>
 
-                <hr />
+            <hr />
 
-                <span class="upload-text"
-                    >Upload files by pasting or dragging and dropping them.</span
-                >
-            </footer>
+            <span class="upload-text">
+                Upload files by pasting or dragging and dropping them.
+            </span>
         `;
     }
 

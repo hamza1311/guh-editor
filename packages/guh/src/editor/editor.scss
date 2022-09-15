@@ -3,7 +3,8 @@
 :host {
     display: block;
     border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
+    border-radius: 7px;
+    overflow: hidden;
 }
 
 .editor-wrapper {
@@ -25,7 +26,7 @@
         outline: 1px solid var(--focused-color, blue) !important;
     }
 
-    
+
     $cm-min-height: var(--cm-min-height, 15rem);
     $cm-initial-height: var(--cm-initial-height, 18rem);
 

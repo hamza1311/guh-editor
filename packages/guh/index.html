@@ -8,10 +8,11 @@
             href="https://fonts.googleapis.com/css?family=Material+Icons&amp;display=block"
             rel="stylesheet"
         />
-        <title>Guh Editor Demp</title>
+        <title>Guh Editor Demo</title>
         <style>
             body {
                 font-family: sans-serif;
+                background-color: deeppink;
             }
         </style>
         <script type="module" src="/src/index.ts"></script>
@@ -183,8 +184,10 @@ This line is only separated by a single newline, so it's a separate line in the 
     </head>
     <body>
         <div style="width: 70%; margin: 1rem">
-            <guh-editor id="huh" autoFocus="true" value="**bold**"> </guh-editor>
+            <guh-editor id="huh" autoFocus="true" readonly> </guh-editor>
         </div>
+
+        <button id="readonly-toggle">Toggle readonly</button>
 
         <script>
             const editor = document.getElementById('huh');
@@ -200,8 +203,12 @@ This line is only separated by a single newline, so it's a separate line in the 
             };
 
             editor.addEventListener('change', (e) => {
-                console.log('change event', e.detail.value);
+                console.debug('change event', e.detail.value);
             });
+            document.getElementById('readonly-toggle').addEventListener('click', () => {
+                const readonly = editor.readonly;
+                editor.readonly = !readonly
+            })
         </script>
     </body>
 </html>
