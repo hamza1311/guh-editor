@@ -8,8 +8,10 @@ import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 export class Footer extends LitElement {
     render() {
         return html`
-            <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
-               target="_blank">
+            <a
+                href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
+                target="_blank"
+            >
                 ${unsafeSVG(mdIcon)} Markdown is supported
             </a>
 

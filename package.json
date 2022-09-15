@@ -2,7 +2,8 @@
     "name": "root",
     "private": true,
     "scripts": {
-        "lint": "prettier --check . && eslint .",
+        "lint": "eslint .",
+        "format:check": "prettier --check . && eslint .",
         "format": "prettier --write ."
     },
     "workspaces": [

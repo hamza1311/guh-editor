@@ -63,8 +63,8 @@ export const DEFAULT_EXTENSIONS = [
 
 export interface EditorProps {
     value?: string;
-    autoFocus?: boolean
-    readonly?: boolean
+    autoFocus?: boolean;
+    readonly?: boolean;
     uploadMedia?: (files: File[]) => UploadedImage[];
     extensions?: Extension[];
     theme?: Extension;
@@ -72,7 +72,7 @@ export interface EditorProps {
 
 export type ChangeEvent = CustomEvent<{ value: string }>;
 
-const readonly = new Compartment()
+const readonly = new Compartment();
 
 @customElement('guh-editor')
 export class Editor extends LitElement implements EditorProps {
@@ -90,11 +90,11 @@ export class Editor extends LitElement implements EditorProps {
 
     @property({ type: Boolean })
     get autoFocus() {
-        return this._autoFocus
-    };
+        return this._autoFocus;
+    }
 
     set autoFocus(val: boolean) {
-        let oldVal = this._autoFocus;
+        const oldVal = this._autoFocus;
         this._autoFocus = val;
         this.requestUpdate('autoFocus', oldVal);
     }
@@ -208,8 +208,8 @@ export class Editor extends LitElement implements EditorProps {
             parent: this.editorElement,
             root: this.shadowRoot ?? undefined,
         });
-        this.setReadOnly()
-        this.setAutoFocus()
+        this.setReadOnly();
+        this.setAutoFocus();
 
         this.resizeObserver.observe(this.editorView.dom);
         requestAnimationFrame(() =>
@@ -224,9 +224,9 @@ export class Editor extends LitElement implements EditorProps {
         if (name === 'value') {
             this.replaceValue(this.value);
         } else if (name === 'readonly') {
-            this.setReadOnly()
+            this.setReadOnly();
         } else if (name === 'autoFocus') {
-            this.setAutoFocus()
+            this.setAutoFocus();
         }
     }
 
@@ -243,7 +243,7 @@ export class Editor extends LitElement implements EditorProps {
         if (this.autoFocus) {
             requestAnimationFrame(() => {
                 if (!this.readonly) {
-                    this.editorView?.focus()
+                    this.editorView?.focus();
                 }
             });
         }
@@ -251,8 +251,8 @@ export class Editor extends LitElement implements EditorProps {
     private setReadOnly() {
         const value = this.readonly;
         this.editorView?.dispatch({
-            effects: readonly.reconfigure(EditorState.readOnly.of(value))
-        })
+            effects: readonly.reconfigure(EditorState.readOnly.of(value)),
+        });
         requestAnimationFrame(() => {
             if (this.editorView?.contentDOM) {
                 this.editorView.contentDOM.contentEditable = value ? 'false' : 'true';
@@ -372,9 +372,9 @@ export class Editor extends LitElement implements EditorProps {
 
         return html`
             <guh-toolbar
-                    role="navigation"
-                    @tabSelect="${this.onTabSelect}"
-                    @formatButtonClick=${this.onToolbarFormatButtonClick}
+                role="navigation"
+                @tabSelect="${this.onTabSelect}"
+                @formatButtonClick=${this.onToolbarFormatButtonClick}
             ></guh-toolbar>
             ${tab}
         `;
@@ -390,4 +390,4 @@ declare global {
 }
 
 /* Codemirror types that are used in the public API */
-export type { EditorView, Extension }
+export type { EditorView, Extension };
