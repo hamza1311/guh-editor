@@ -5,8 +5,8 @@ export default defineConfig({
     build: {
         lib: {
             entry: 'src/index.ts',
-            name: 'Guh',
-            fileName: 'guh',
+            name: 'GuhMd',
+            fileName: 'guh-md',
         },
         rollupOptions: {},
     },

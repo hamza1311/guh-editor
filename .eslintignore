@@ -7,7 +7,7 @@ node_modules
 .env.*
 !.env.example
 dist
-packages/guh/types
+packages/editor/types
 
 vite.config.ts
 # Ignore files for PNPM, NPM and YARN

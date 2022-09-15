@@ -1,9 +1,9 @@
 {
-    "name": "@guh/react",
+    "name": "@guh-md/react",
     "version": "0.0.0",
     "type": "module",
     "main": "./dist/guh-react.umd.cjs",
-    "module": "./dist/guh-react.js",
+    "module": "",
     "exports": {
         ".": {
             "import": "./dist/guh-react.js",
@@ -21,7 +21,7 @@
         "react-dom": "^18.2.0"
     },
     "peerDependencies": {
-        "guh": "*"
+        "@guh-md/editor": "*"
     },
     "devDependencies": {
         "@types/react": "^18.0.17",
