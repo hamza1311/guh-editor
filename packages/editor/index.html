@@ -184,15 +184,20 @@ This line is only separated by a single newline, so it's a separate line in the 
     </head>
     <body>
         <div style="width: 70%; margin: 1rem">
-            <guh-editor id="huh" autoFocus="true" readonly> </guh-editor>
+            <guh-editor id="huh" autoFocus="true"> </guh-editor>
         </div>
 
         <button id="readonly-toggle">Toggle readonly</button>
 
         <script>
             const editor = document.getElementById('huh');
-            editor.value = BASE_CONTENT.trim();
-            editor.uploadMedia = (files) => {
+            // editor.value = BASE_CONTENT.trim();
+            const sleep = (time) => new Promise(resolve => {
+                setTimeout(() => resolve(), time)
+            })
+            editor.uploadMedia = async (files) => {
+                await sleep(1000);
+
                 return files.map((file) => {
                     console.log(file);
                     return {

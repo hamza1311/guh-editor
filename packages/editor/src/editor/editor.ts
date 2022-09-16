@@ -65,7 +65,7 @@ export interface EditorProps {
     value?: string;
     autoFocus?: boolean;
     readonly?: boolean;
-    uploadMedia?: (files: File[]) => UploadedImage[];
+    uploadMedia?: (files: File[]) => Promise<UploadedImage[]>;
     extensions?: Extension[];
     theme?: Extension;
 }
@@ -105,7 +105,7 @@ export class Editor extends LitElement implements EditorProps {
     readonly = false;
 
     @property({ attribute: false, type: Function })
-    uploadMedia?: (files: File[]) => UploadedImage[];
+    uploadMedia?: (files: File[]) => Promise<UploadedImage[]>;
 
     @property({ attribute: false })
     extensions: Extension[] = DEFAULT_EXTENSIONS;
@@ -248,14 +248,18 @@ export class Editor extends LitElement implements EditorProps {
             });
         }
     }
-    private setReadOnly() {
-        const value = this.readonly;
+    private setReadOnly(value: boolean = this.readonly) {
         this.editorView?.dispatch({
             effects: readonly.reconfigure(EditorState.readOnly.of(value)),
         });
         requestAnimationFrame(() => {
             if (this.editorView?.contentDOM) {
                 this.editorView.contentDOM.contentEditable = value ? 'false' : 'true';
+                if (!value){
+                    this.editorView?.focus();
+                } else {
+                    this.editorView.contentDOM.blur();
+                }
             }
         });
     }
@@ -316,17 +320,44 @@ export class Editor extends LitElement implements EditorProps {
         if (files.length !== fileList.length) {
             alert('only image or video files can be uploaded');
         } else {
-            const uploaded = this.uploadMedia(files);
-            const toInsert = uploaded.map((it) => `![${it.alt}](${it.url})`).join('\n');
-            const pos = this.editorView.state.selection.main.head;
-            const editorState = this.editorView.state;
-            const transaction = editorState.update({
+            const head = () => this.editorView!.state.selection.main.head
+            const from = head();
+            console.log(from)
+            const uploadingText = '![](Uploading...)'
+            const transaction = this.editorView.state.update({
                 changes: {
-                    from: pos,
-                    insert: `\n${toInsert}`,
-                },
+                    from,
+                    insert: uploadingText,
+                }
             });
             this.editorView.dispatch(transaction);
+
+            const afterUploadCb = (toInsert: string) => {
+                const inserted = `\n${toInsert}`;
+                const transaction = this.editorView!.state.update({
+                    changes: {
+                        from,
+                        to: from + uploadingText.length,
+                        insert: inserted,
+                    },
+                    selection: {
+                        anchor: from + inserted.length
+                    }
+                });
+                this.editorView?.dispatch(transaction);
+            }
+            this.setReadOnly(true)
+
+            this.uploadMedia(files)
+                .then((uploaded) => {
+                    const toInsert = uploaded.map((it) => `![${it.alt}](${it.url})`).join('\n');
+                    afterUploadCb(toInsert)
+                    this.setReadOnly(false)
+                })
+                .catch((e) => {
+                    afterUploadCb(`Upload failed: ${e}`)
+                    this.setReadOnly(false)
+                })
         }
     }
 
