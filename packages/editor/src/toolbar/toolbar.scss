@@ -15,6 +15,11 @@ $width: 5rem;
     --mdc-theme-primary: currentColor;
 }
 
+.tabs mwc-button span[slot='icon'] {
+    width: 24px;
+    height: 24px;
+}
+
 .formatting {
     --mdc-icon-button-size: 32px;
     --mdc-icon-size: 20px;

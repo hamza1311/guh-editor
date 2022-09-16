@@ -397,7 +397,7 @@ export class Editor extends LitElement implements EditorProps {
         `;
         const edit = html`
             <div class="editor-wrapper">${this.editorElement}</div>
-            <guh-footer></guh-footer>
+            <guh-footer .canUpload=${this.uploadMedia !== undefined}></guh-footer>
         `;
         const tab = this._tab === 'edit' ? edit : preview;
 

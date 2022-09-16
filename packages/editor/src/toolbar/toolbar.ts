@@ -3,6 +3,7 @@ import { unsafeCSS, html, LitElement } from 'lit';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 import '@material/mwc-icon-button';
 import '@material/mwc-button';
+import '@material/mwc-icon';
 import styleSheet from './toolbar.scss?inline';
 import boldIcon from '../../src/assets/icons/bold.svg?raw';
 import codeIcon from '../../src/assets/icons/code.svg?raw';
@@ -60,8 +61,13 @@ export class Toolbar extends LitElement {
             <section class="tabs">
                 <mwc-button
                     label=${tab.toUpperCase()}
+                    trailingIcon
                     @click=${this.swapTab}
-                >${tab === 'preview' ? unsafeSVG(previewIcon) : unsafeSVG(editIcon)}</mwc-button>
+                >
+                    <span slot="icon">
+                        ${tab === 'preview' ? unsafeSVG(previewIcon) : unsafeSVG(editIcon)}
+                    </span>
+                </mwc-button>
             </section>
 
             <section class="formatting">

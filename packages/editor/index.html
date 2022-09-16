@@ -191,7 +191,7 @@ This line is only separated by a single newline, so it's a separate line in the 
             const sleep = (time) => new Promise(resolve => {
                 setTimeout(() => resolve(), time)
             })
-            editor.uploadMedia = async (files) => {
+            /*editor.uploadMedia = async (files) => {
                 await sleep(1000);
 
                 return files.map((file) => {
@@ -201,7 +201,7 @@ This line is only separated by a single newline, so it's a separate line in the 
                         url: 'url',
                     };
                 });
-            };
+            };*/
 
             editor.addEventListener('change', (e) => {
                 console.debug('change event', e.detail.value);
