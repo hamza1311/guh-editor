@@ -7,15 +7,17 @@ import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 @customElement('guh-footer')
 export class Footer extends LitElement {
     @property({ type: Boolean })
-    canUpload = false
+    canUpload = false;
 
     render() {
-        const uploadText = this.canUpload ? html`
-            <hr />
-            <span class="upload-text">
-                Upload files by pasting or dragging and dropping them.
-            </span>
-        `: html``
+        const uploadText = this.canUpload
+            ? html`
+                  <hr />
+                  <span class="upload-text">
+                      Upload files by pasting or dragging and dropping them.
+                  </span>
+              `
+            : html``;
         return html`
             <a
                 href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"

@@ -59,11 +59,7 @@ export class Toolbar extends LitElement {
             this.dispatchCustomEvent('formatButtonClick', { button: label });
         return html`
             <section class="tabs">
-                <mwc-button
-                    label=${tab.toUpperCase()}
-                    trailingIcon
-                    @click=${this.swapTab}
-                >
+                <mwc-button label=${tab.toUpperCase()} trailingIcon @click=${this.swapTab}>
                     <span slot="icon">
                         ${tab === 'preview' ? unsafeSVG(previewIcon) : unsafeSVG(editIcon)}
                     </span>

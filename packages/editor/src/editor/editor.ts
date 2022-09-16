@@ -255,8 +255,8 @@ export class Editor extends LitElement implements EditorProps {
         requestAnimationFrame(() => {
             if (this.editorView?.contentDOM) {
                 this.editorView.contentDOM.contentEditable = value ? 'false' : 'true';
-                if (!value){
-                    this.editorView?.focus();
+                if (!value) {
+                    this.editorView.focus();
                 } else {
                     this.editorView.contentDOM.blur();
                 }
@@ -320,44 +320,44 @@ export class Editor extends LitElement implements EditorProps {
         if (files.length !== fileList.length) {
             alert('only image or video files can be uploaded');
         } else {
-            const head = () => this.editorView!.state.selection.main.head
-            const from = head();
-            console.log(from)
-            const uploadingText = '![](Uploading...)'
+            const from = this.editorView.state.selection.main.head;
+            console.log(from);
+            const uploadingText = '![](Uploading...)';
             const transaction = this.editorView.state.update({
                 changes: {
                     from,
                     insert: uploadingText,
-                }
+                },
             });
             this.editorView.dispatch(transaction);
 
             const afterUploadCb = (toInsert: string) => {
                 const inserted = `\n${toInsert}`;
-                const transaction = this.editorView!.state.update({
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                const tx = this.editorView!.state.update({
                     changes: {
                         from,
                         to: from + uploadingText.length,
                         insert: inserted,
                     },
                     selection: {
-                        anchor: from + inserted.length
-                    }
+                        anchor: from + inserted.length,
+                    },
                 });
-                this.editorView?.dispatch(transaction);
-            }
-            this.setReadOnly(true)
+                this.editorView?.dispatch(tx);
+            };
+            this.setReadOnly(true);
 
             this.uploadMedia(files)
                 .then((uploaded) => {
                     const toInsert = uploaded.map((it) => `![${it.alt}](${it.url})`).join('\n');
-                    afterUploadCb(toInsert)
-                    this.setReadOnly(false)
+                    afterUploadCb(toInsert);
+                    this.setReadOnly(false);
                 })
-                .catch((e) => {
-                    afterUploadCb(`Upload failed: ${e}`)
-                    this.setReadOnly(false)
-                })
+                .catch((e: unknown) => {
+                    afterUploadCb(`Upload failed: ${e as string}`);
+                    this.setReadOnly(false);
+                });
         }
     }
 

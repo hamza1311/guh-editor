@@ -30,11 +30,11 @@ jobs:
 
             - name: Install and Build
               run: |
-                  cd packages/guh
+                  cd packages/editor
                   yarn install
                   yarn build
 
-                  sed -i -e 's/\/src\/index.ts/guh.js/g' ./index.html
+                  sed -i -e 's/\/src\/index.ts/guh-md.js/g' ./index.html
                   cp index.html dist/
 
             - name: Upload artifact
