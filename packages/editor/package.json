@@ -2,10 +2,10 @@
     "name": "@guh-md/editor",
     "version": "0.1.2",
     "type": "module",
-    "main": "dist/guh.js",
+    "main": "dist/guh-md.js",
     "license": "MIT",
     "exports": {
-        ".": "./dist/guh.js"
+        ".": "./dist/guh-md.js"
     },
     "types": "types/index.d.ts",
     "files": [
@@ -26,6 +26,7 @@
         "@codemirror/state": "^6.0.0",
         "@codemirror/view": "^6.0.0",
         "@lezer/markdown": "^1.0.1",
+        "@lezer/common": "^1.0.1",
         "@material/mwc-button": "^0.27.0",
         "@material/mwc-icon-button": "^0.27.0",
         "highlight.js": "^11.6.0",
