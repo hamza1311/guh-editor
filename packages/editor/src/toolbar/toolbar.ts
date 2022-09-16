@@ -8,6 +8,8 @@ import boldIcon from '../../src/assets/icons/bold.svg?raw';
 import codeIcon from '../../src/assets/icons/code.svg?raw';
 import italicsIcon from '../../src/assets/icons/italics.svg?raw';
 import linkIcon from '../../src/assets/icons/link.svg?raw';
+import previewIcon from '../../src/assets/icons/preview.svg?raw';
+import editIcon from '../../src/assets/icons/edit.svg?raw';
 
 export type Tab = 'edit' | 'preview';
 
@@ -51,11 +53,6 @@ export class Toolbar extends LitElement {
     }
 
     render() {
-        /*
-        <button class="tab ${this.activated('edit')}" @click=${this.editClicked}>Edit</button>
-                    <button class="tab ${this.activated('preview')}" @click=${this.previewClicked}>Preview</button>
-                    <span class='glider'></span>
-        */
         const tab = getOppositeTab(this._tab);
         const formatButtonClick = (label: string) => () =>
             this.dispatchCustomEvent('formatButtonClick', { button: label });
@@ -63,9 +60,8 @@ export class Toolbar extends LitElement {
             <section class="tabs">
                 <mwc-button
                     label=${tab.toUpperCase()}
-                    icon=${tab}
                     @click=${this.swapTab}
-                ></mwc-button>
+                >${tab === 'preview' ? unsafeSVG(previewIcon) : unsafeSVG(editIcon)}</mwc-button>
             </section>
 
             <section class="formatting">
