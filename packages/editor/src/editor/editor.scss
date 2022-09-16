@@ -18,12 +18,12 @@
         overflow: hidden;
     }
     #cm-container {
-        background-color: styles.$bg-color-darker;
+        background-color: styles.$cm-bg-color;
         padding: 0.3rem;
     }
 
     .cm-focused {
-        outline: 1px solid var(--focused-color, blue) !important;
+        outline: 1px solid var(--focused-outline-color, blue) !important;
     }
 
     $cm-min-height: var(--cm-min-height, 15rem);

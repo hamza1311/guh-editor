@@ -32,7 +32,7 @@ import '../preview';
 import type { Tab } from '../toolbar';
 import editorStyles from './editor.scss?inline';
 
-export interface UploadedImage {
+export interface UploadedMedia {
     url: string;
     alt: string;
 }
@@ -65,7 +65,7 @@ export interface EditorProps {
     value?: string;
     autoFocus?: boolean;
     readonly?: boolean;
-    uploadMedia?: (files: File[]) => Promise<UploadedImage[]>;
+    uploadMedia?: (files: File[]) => Promise<UploadedMedia[]>;
     extensions?: Extension[];
     theme?: Extension;
 }
@@ -105,7 +105,7 @@ export class Editor extends LitElement implements EditorProps {
     readonly = false;
 
     @property({ attribute: false, type: Function })
-    uploadMedia?: (files: File[]) => Promise<UploadedImage[]>;
+    uploadMedia?: (files: File[]) => Promise<UploadedMedia[]>;
 
     @property({ attribute: false })
     extensions: Extension[] = DEFAULT_EXTENSIONS;

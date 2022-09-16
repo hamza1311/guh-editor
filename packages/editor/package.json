@@ -4,6 +4,21 @@
     "type": "module",
     "main": "dist/guh-md.js",
     "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/hamza1311/guh-editor"
+    },
+    "author": {
+        "name": "Muhammad Hamza",
+        "email": "muhammadhamza1311@gmail.com",
+        "url": "https://mhamza.dev"
+    },
+    "bugs": {
+        "url": "https://github.com/hamza1311/guh-editor/issues"
+    },
+    "description": "A batteries included, embeddable markdown editor for the web",
+    "readme": "../../README.md",
+    "keywords": ["markdown", "editor", "md"],
     "exports": {
         ".": "./dist/guh-md.js"
     },
