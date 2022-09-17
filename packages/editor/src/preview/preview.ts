@@ -2,18 +2,17 @@ import {html, LitElement, unsafeCSS} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {marked} from 'marked';
 import previewStyles from './preview.scss';
-import type hljsTy from 'highlight.js/lib/core'
 import {until} from 'lit/directives/until.js';
+import type { HighlightJS } from './hljs'
 
-let hljs: typeof hljsTy;
 export type MarkdownParser = (markdown: string) => Promise<Element[]>;
+
+let hljs: HighlightJS;
 
 const doHighlight = async (code: string, lang: string): Promise<string> => {
     if (!hljs) {
-        const hljsImport = await import('highlight.js')
-        hljs = hljsImport.default
+        hljs = (await import('./hljs')).hljs
     }
-
     const language = hljs.getLanguage(lang) === undefined ? 'plaintext' : lang;
     return hljs.highlight(code, {language}).value
 }
