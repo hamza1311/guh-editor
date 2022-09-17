@@ -1,22 +1,46 @@
-import { html, LitElement, unsafeCSS } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import { marked } from 'marked';
-import hljs from 'highlight.js';
+import {html, LitElement, unsafeCSS} from 'lit';
+import {customElement, property} from 'lit/decorators.js';
+import {marked} from 'marked';
 import previewStyles from './preview.scss';
+import type hljsTy from 'highlight.js/lib/core'
+import {until} from 'lit/directives/until.js';
 
-export type MarkdownParser = (markdown: string) => Element[];
+let hljs: typeof hljsTy;
+export type MarkdownParser = (markdown: string) => Promise<Element[]>;
 
-const defaultParser: MarkdownParser = (markdown) => {
+const doHighlight = async (code: string, lang: string): Promise<string> => {
+    if (!hljs) {
+        const hljsImport = await import('highlight.js')
+        hljs = hljsImport.default
+    }
+
+    const language = hljs.getLanguage(lang) === undefined ? 'plaintext' : lang;
+    return hljs.highlight(code, {language}).value
+}
+
+marked.setOptions({
+    gfm: true,
+    highlight: function (code, lang, callback) {
+        doHighlight(code, lang)
+            .then(hl => callback?.(undefined, hl))
+            .catch(err => callback?.(err));
+    },
+    langPrefix: 'hljs language-',
+})
+
+const defaultParser = async (markdown: string) => {
+    const rendered = await new Promise<string>((resolve, reject) => {
+        marked(markdown, (err, html) => {
+            if (err) {
+                reject(err.toString())
+            } else {
+                resolve(html)
+            }
+        });
+    })
     const div = document.createElement('div');
-    div.innerHTML = marked(markdown, {
-        gfm: true,
-        highlight: function (code, lang) {
-            const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-            return hljs.highlight(code, { language }).value;
-        },
-        langPrefix: 'hljs language-',
-    });
-    return [...div.children];
+    div.innerHTML = rendered
+    return [...div.children]
 };
 
 @customElement('guh-preview')
@@ -28,9 +52,8 @@ export class Preview extends LitElement {
     markdown = '';
 
     render() {
-        console.log('markdown', this.markdown);
         const parsed = this.parser(this.markdown);
-        return html` <div class="preview-wrapper">${parsed}</div> `;
+        return html` <div class="preview-wrapper">${until(parsed, html`<span>Loading...</span>`)}</div> `;
     }
 
     static styles = unsafeCSS(previewStyles);
