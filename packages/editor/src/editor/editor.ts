@@ -16,7 +16,7 @@ import {
     bracketMatching,
 } from '@codemirror/language';
 import { deleteLine, history, historyKeymap, standardKeymap } from '@codemirror/commands';
-import { searchKeymap, highlightSelectionMatches } from '@codemirror/search';
+import { searchKeymap, highlightSelectionMatches } from '@codemirror/search'; // 44KB
 import {
     autocompletion,
     completionKeymap,
@@ -26,6 +26,7 @@ import {
 import { markdown } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
 import { GFM } from '@lezer/markdown';
+// todo split into their own bundles
 import '../toolbar';
 import '../footer';
 import '../preview';
