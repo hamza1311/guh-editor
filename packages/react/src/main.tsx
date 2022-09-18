@@ -1,14 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { Guh, ChangeEvent } from '../lib';
+import { Guh, ChangeEvent } from '../lib'
 
 const App = () => {
     const onChange = (event: ChangeEvent) => {
         console.log('text changed', event.detail.value);
     };
 
-    const uploadMedia = (files: File[]) => {
+    const uploadMedia = async (files: File[]) => {
         return files.map((it) => ({
             url: it.name,
             alt: 'it.name',
