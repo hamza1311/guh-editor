@@ -1,5 +1,6 @@
 import { html, PropertyDeclaration, LitElement, unsafeCSS } from 'lit';
 import { customElement, state, property } from 'lit/decorators.js';
+import {until} from "lit/directives/until.js";
 import {
     keymap,
     highlightSpecialChars,
@@ -29,7 +30,6 @@ import { GFM } from '@lezer/markdown';
 // todo split into their own bundles
 import '../toolbar';
 import '../footer';
-import '../preview';
 import type { Tab } from '../toolbar';
 import editorStyles from './editor.scss?inline';
 
@@ -392,10 +392,16 @@ export class Editor extends LitElement implements EditorProps {
         }
     }
 
+    async loadPreviewComponent() {
+        const loaded = customElements.get('guh-preview') !== undefined
+        if (!loaded) {
+            await import('../preview')
+        }
+        return html`<guh-preview .markdown="${this.editorView?.state.doc.toString() ?? ''}"></guh-preview>`
+    }
+
     render() {
-        const preview = html`
-            <guh-preview .markdown="${this.editorView?.state.doc.toString() ?? ''}"></guh-preview>
-        `;
+        const preview = html`${until(this.loadPreviewComponent(), html`Loading...`)}`;
         const edit = html`
             <div class="editor-wrapper">${this.editorElement}</div>
             <guh-footer .canUpload=${this.uploadMedia !== undefined}></guh-footer>
