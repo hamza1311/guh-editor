@@ -1,6 +1,5 @@
 import { html, PropertyDeclaration, LitElement, unsafeCSS } from 'lit';
 import { customElement, state, property } from 'lit/decorators.js';
-import {until} from "lit/directives/until.js";
 import {
     keymap,
     highlightSpecialChars,
@@ -27,7 +26,7 @@ import {
 import { markdown } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
 import { GFM } from '@lezer/markdown';
-// todo split into their own bundles
+import '../preview';
 import '../toolbar';
 import '../footer';
 import type { Tab } from '../toolbar';
@@ -62,21 +61,12 @@ export const DEFAULT_EXTENSIONS = [
     ]),
 ];
 
-export interface EditorProps {
-    value?: string;
-    autoFocus?: boolean;
-    readonly?: boolean;
-    uploadMedia?: (files: File[]) => Promise<UploadedMedia[]>;
-    extensions?: Extension[];
-    theme?: Extension;
-}
-
 export type ChangeEvent = CustomEvent<{ value: string }>;
 
 const readonly = new Compartment();
 
 @customElement('guh-editor')
-export class Editor extends LitElement implements EditorProps {
+export class Editor extends LitElement {
     /*
      * Get the inner raw codemirror editor vide
      *
@@ -392,16 +382,8 @@ export class Editor extends LitElement implements EditorProps {
         }
     }
 
-    async loadPreviewComponent() {
-        const loaded = customElements.get('guh-preview') !== undefined
-        if (!loaded) {
-            await import('../preview')
-        }
-        return html`<guh-preview .markdown="${this.editorView?.state.doc.toString() ?? ''}"></guh-preview>`
-    }
-
     render() {
-        const preview = html`${until(this.loadPreviewComponent(), html`Loading...`)}`;
+        const preview = html`<guh-preview .markdown="${this.editorView?.state.doc.toString() ?? ''}"></guh-preview>`;
         const edit = html`
             <div class="editor-wrapper">${this.editorElement}</div>
             <guh-footer .canUpload=${this.uploadMedia !== undefined}></guh-footer>
