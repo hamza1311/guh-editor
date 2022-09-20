@@ -12,6 +12,7 @@
             }
         </style>
         <script type="module" src="/src/index.ts"></script>
+        <link rel=preload href="//unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/atom-one-dark.min.css">
         <script>
             const BASE_CONTENT = `
 This is an example note.
@@ -180,7 +181,9 @@ This line is only separated by a single newline, so it's a separate line in the 
     </head>
     <body>
         <div style="width: 70%; margin: 1rem">
-            <guh-editor id="huh" autoFocus="true"> </guh-editor>
+            <guh-editor id="huh" autoFocus="true"
+                        hljsThemeHref="//unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/atom-one-dark.min.css">
+            </guh-editor>
         </div>
 
         <button id="readonly-toggle">Toggle readonly</button>

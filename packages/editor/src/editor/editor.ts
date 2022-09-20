@@ -104,6 +104,9 @@ export class Editor extends LitElement {
     @property({ attribute: false })
     theme?: Extension;
 
+    @property()
+    hljsThemeHref = "//unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/github.min.css";
+
     private resizeObserver: ResizeObserver = new ResizeObserver((e) => {
         if (!this.editorView) {
             return;
@@ -383,7 +386,12 @@ export class Editor extends LitElement {
     }
 
     render() {
-        const preview = html`<guh-preview .markdown="${this.editorView?.state.doc.toString() ?? ''}"></guh-preview>`;
+        const preview = html`
+            <guh-preview 
+                    .hljsThemeHref=${this.hljsThemeHref}
+                    .markdown="${this.editorView?.state.doc.toString() ?? ''}">
+            </guh-preview>
+        `;
         const edit = html`
             <div class="editor-wrapper">${this.editorElement}</div>
             <guh-footer .canUpload=${this.uploadMedia !== undefined}></guh-footer>

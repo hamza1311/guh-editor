@@ -1,7 +1,7 @@
 import {html, LitElement, unsafeCSS} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {marked} from 'marked';
-import previewStyles from './preview.scss';
+import previewStyles from './preview.scss?inline';
 import {until} from 'lit/directives/until.js';
 import type { HighlightJS } from './hljs'
 
@@ -50,9 +50,15 @@ export class Preview extends LitElement {
     @property({ noAccessor: true })
     markdown = '';
 
+    @property()
+    hljsThemeHref: string = '';
+
     render() {
         const parsed = this.parser(this.markdown);
-        return html` <div class="preview-wrapper">${until(parsed, html`<span>Loading...</span>`)}</div> `;
+        return html`
+            <link rel="stylesheet" href=${this.hljsThemeHref}>
+            <div class="preview-wrapper">${until(parsed, html`<span>Loading...</span>`)}</div>
+        `;
     }
 
     static styles = unsafeCSS(previewStyles);

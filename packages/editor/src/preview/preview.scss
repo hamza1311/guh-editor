@@ -1,5 +1,4 @@
 @use '../styles' as styles;
-@use 'highlight.js/styles/github.css';
 
 * {
     margin: 0;
@@ -45,6 +44,5 @@ th {
 
 pre,
 .hljs {
-    background: #f6f8fa none repeat scroll 0 0 !important;
     padding: 1em;
 }
