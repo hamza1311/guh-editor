@@ -16,7 +16,7 @@ const config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'hamza1311', // Usually your GitHub org/user name.
+  organizationName: 'hamza1311', // Usually your GitHub org/username.
   projectName: 'guh-md', // Usually your repo name.
 
   // Even if you don't use internalization, you can use this field to set useful
@@ -59,7 +59,12 @@ const config = {
             type: 'doc',
             docId: 'intro',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Docs',
+          },
+          {
+            href: '/playground',
+            position: 'left',
+            label: 'Playground',
           },
           {
             href: 'https://github.com/hamza1311/guh-md',
