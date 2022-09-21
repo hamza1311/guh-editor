@@ -8,7 +8,7 @@ export default defineConfig({
             entry: 'src/index.ts',
             name: 'GuhMd',
             fileName: 'guh-md',
-            formats: ['es']
+            formats: ['es', 'umd']
         },
         rollupOptions: {
             external: [
@@ -19,7 +19,25 @@ export default defineConfig({
                 /@material\/\w+/,
                 /@lezer\/\w+/,
                 'marked',
-            ]
+            ],
+            output: {
+                globals: {
+                    'lit': 'lit',
+                    'marked': 'marked',
+                    'lit/decorators.js': 'lit/decorators.js',
+                    '@codemirror/view': '@codemirror/view',
+                    '@codemirror/state': '@codemirror/state',
+                    '@codemirror/language': '@codemirror/language',
+                    '@codemirror/commands': '@codemirror/commands',
+                    '@codemirror/search': '@codemirror/search',
+                    '@codemirror/autocomplete': '@codemirror/autocomplete',
+                    '@codemirror/lang-markdown': '@codemirror/lang-markdown',
+                    '@codemirror/language-data': '@codemirror/language-data',
+                    '@lezer/markdown': '@lezer/markdown',
+                    'lit/directives/until.js':'lit/directives/until.js',
+                    'lit/directives/unsafe-svg.js':'lit/directives/unsafe-svg.js',
+                }
+            }
         },
     },
     plugins: [visualizer({
