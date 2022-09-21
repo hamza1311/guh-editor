@@ -1,15 +1,32 @@
 {
     "name": "@guh-md/react",
-    "version": "0.0.0",
+    "version": "0.1.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/hamza1311/guh-editor"
+    },
+    "author": {
+        "name": "Muhammad Hamza",
+        "email": "muhammadhamza1311@gmail.com",
+        "url": "https://mhamza.dev"
+    },
+    "bugs": {
+        "url": "https://github.com/hamza1311/guh-editor/issues"
+    },
     "type": "module",
     "main": "./dist/guh-react.umd.cjs",
-    "module": "",
+    "module": "./dist/guh-react.js",
     "exports": {
         ".": {
             "import": "./dist/guh-react.js",
             "require": "./dist/guh-react.umd.cjs"
         }
     },
+    "files": [
+        "dist",
+        "types/lib"
+    ],
+    "types": "./types/lib/index.d.ts",
     "scripts": {
         "dev": "vite",
         "build": "tsc && vite build",
