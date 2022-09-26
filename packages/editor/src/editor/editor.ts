@@ -6,6 +6,7 @@ import {
     drawSelection,
     dropCursor,
     EditorView,
+    placeholder,
     ViewUpdate,
 } from '@codemirror/view';
 import { EditorState, Extension, Compartment } from '@codemirror/state';
@@ -64,6 +65,7 @@ export const DEFAULT_EXTENSIONS = [
 export type ChangeEvent = CustomEvent<{ value: string }>;
 
 const readonly = new Compartment();
+const placeholderCompartment = new Compartment();
 
 @customElement('guh-editor')
 export class Editor extends LitElement {
@@ -78,6 +80,9 @@ export class Editor extends LitElement {
 
     @property()
     value = '';
+
+    @property()
+    placeholder = '';
 
     @property({ type: Boolean })
     get autoFocus() {
@@ -163,6 +168,7 @@ export class Editor extends LitElement {
         const extensions = [
             ...this.extensions,
             EditorView.updateListener.of((update) => this.onEditorUpdate(update)),
+            placeholderCompartment.of(placeholder(this.placeholder)),
             readonly.of(EditorState.readOnly.of(this.readonly)),
             EditorView.domEventHandlers({
                 drop: this.drop.bind(self),
@@ -221,6 +227,8 @@ export class Editor extends LitElement {
             this.setReadOnly();
         } else if (name === 'autoFocus') {
             this.setAutoFocus();
+        } else if (name === 'placeholder') {
+            this.setPlaceholder();
         }
     }
 
@@ -241,6 +249,11 @@ export class Editor extends LitElement {
                 }
             });
         }
+    }
+    private setPlaceholder(value: string = this.placeholder) {
+        this.editorView?.dispatch({
+            effects: placeholderCompartment.reconfigure(placeholder(value)),
+        });
     }
     private setReadOnly(value: boolean = this.readonly) {
         this.editorView?.dispatch({
