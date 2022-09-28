@@ -1,6 +1,6 @@
 {
     "name": "@guh-md/editor",
-    "version": "0.1.6",
+    "version": "0.1.7",
     "type": "module",
     "module": "dist/guh-md.js",
     "main": "./dist/guh-md.umd.js",
@@ -32,7 +32,8 @@
     "scripts": {
         "dev": "vite",
         "build": "tsc && vite build",
-        "lint": "eslint . --ignore-path ../../.eslintignore"
+        "lint": "eslint . --ignore-path ../../.eslintignore",
+        "prepack": "tsc && vite build"
     },
     "dependencies": {
         "@codemirror/autocomplete": "^6.0.0",
