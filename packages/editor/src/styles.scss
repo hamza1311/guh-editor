@@ -1,5 +1,6 @@
 $bg-color: var(--bg-color, white);
-$cm-bg-color: var(--cm-bg-color, white);
+$toolbar-bg-color: var(--toolbar-bg-color, $bg-color);
+$cm-bg-color: var(--cm-bg-color, $bg-color);
 $editor-bg-color: var(--editor-bg-color, white);
 
 @mixin all-headings {

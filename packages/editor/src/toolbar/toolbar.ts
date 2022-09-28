@@ -57,15 +57,8 @@ export class Toolbar extends LitElement {
         const tab = getOppositeTab(this._tab);
         const formatButtonClick = (label: string) => () =>
             this.dispatchCustomEvent('formatButtonClick', { button: label });
-        return html`
-            <section class="tabs">
-                <mwc-button label=${tab.toUpperCase()} trailingIcon @click=${this.swapTab}>
-                    <span slot="icon">
-                        ${tab === 'preview' ? unsafeSVG(previewIcon) : unsafeSVG(editIcon)}
-                    </span>
-                </mwc-button>
-            </section>
 
+        const formattingSection = this._tab === 'edit' ? html`
             <section class="formatting">
                 <!--<button class="tooltip" title="Click to bold (ctrl + b)"></button>-->
                 <mwc-icon-button @click=${formatButtonClick('bold')}
@@ -81,6 +74,18 @@ export class Toolbar extends LitElement {
                     >${unsafeSVG(linkIcon)}</mwc-icon-button
                 >
             </section>
+        ` : html``
+
+        return html`
+            <section class="tabs">
+                <mwc-button label=${tab.toUpperCase()} trailingIcon @click=${this.swapTab}>
+                    <span slot="icon">
+                        ${tab === 'preview' ? unsafeSVG(previewIcon) : unsafeSVG(editIcon)}
+                    </span>
+                </mwc-button>
+            </section>
+
+            ${formattingSection}
         `;
     }
 
