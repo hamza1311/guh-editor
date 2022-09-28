@@ -1,5 +1,5 @@
 import { html, PropertyDeclaration, LitElement, unsafeCSS } from 'lit';
-import { customElement, state, property } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import {
     keymap,
     highlightSpecialChars,
@@ -153,8 +153,8 @@ export class Editor extends LitElement {
     };
 
     /* Preview or edit tab */
-    @state()
-    private _tab: Tab = 'edit';
+    @property()
+    tab: Tab = 'edit';
 
     connectedCallback() {
         super.connectedCallback();
@@ -272,8 +272,8 @@ export class Editor extends LitElement {
     }
 
     private onTabSelect(e: CustomEvent<{ tab: Tab }>) {
-        this._tab = e.detail.tab;
-        if (this._tab === 'edit') {
+        this.tab = e.detail.tab;
+        if (this.tab === 'edit') {
             requestAnimationFrame(() => this.editorView?.focus());
         }
     }
@@ -400,7 +400,7 @@ export class Editor extends LitElement {
 
     render() {
         const preview = html`
-            <guh-preview 
+            <guh-preview
                     .hljsThemeHref=${this.hljsThemeHref}
                     .markdown="${this.editorView?.state.doc.toString() ?? ''}">
             </guh-preview>
@@ -409,11 +409,12 @@ export class Editor extends LitElement {
             <div class="editor-wrapper">${this.editorElement}</div>
             <guh-footer .canUpload=${this.uploadMedia !== undefined}></guh-footer>
         `;
-        const tab = this._tab === 'edit' ? edit : preview;
+        const tab = this.tab === 'edit' ? edit : preview;
 
         return html`
             <guh-toolbar
                 role="navigation"
+                .tab=${this.tab}
                 @tabSelect="${this.onTabSelect}"
                 @formatButtonClick=${this.onToolbarFormatButtonClick}
             ></guh-toolbar>

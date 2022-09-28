@@ -1,4 +1,4 @@
-import { customElement, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { unsafeCSS, html, LitElement } from 'lit';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 // todo no material?
@@ -24,12 +24,12 @@ const getOppositeTab = (tab: Tab): Tab => {
 
 @customElement('guh-toolbar')
 export class Toolbar extends LitElement {
-    @state()
-    private _tab: Tab = 'edit';
+    @property()
+    private tab: Tab = 'edit';
 
     private swapTab() {
-        this._tab = getOppositeTab(this._tab);
-        this.tabActivated(this._tab);
+        this.tab = getOppositeTab(this.tab);
+        this.tabActivated(this.tab);
     }
 
     dispatchCustomEvent<T>(type: string, detail: T): boolean {
@@ -46,7 +46,7 @@ export class Toolbar extends LitElement {
     }
 
     activated(tab: Tab) {
-        if (this._tab === tab) {
+        if (this.tab === tab) {
             return `${tab}-activated activated`;
         } else {
             return '';
@@ -54,11 +54,11 @@ export class Toolbar extends LitElement {
     }
 
     render() {
-        const tab = getOppositeTab(this._tab);
+        const oppositeTab = getOppositeTab(this.tab);
         const formatButtonClick = (label: string) => () =>
             this.dispatchCustomEvent('formatButtonClick', { button: label });
 
-        const formattingSection = this._tab === 'edit' ? html`
+        const formattingSection = this.tab === 'edit' ? html`
             <section class="formatting">
                 <!--<button class="tooltip" title="Click to bold (ctrl + b)"></button>-->
                 <mwc-icon-button @click=${formatButtonClick('bold')}
@@ -78,9 +78,9 @@ export class Toolbar extends LitElement {
 
         return html`
             <section class="tabs">
-                <mwc-button label=${tab.toUpperCase()} trailingIcon @click=${this.swapTab}>
+                <mwc-button label=${oppositeTab.toUpperCase()} trailingIcon @click=${this.swapTab}>
                     <span slot="icon">
-                        ${tab === 'preview' ? unsafeSVG(previewIcon) : unsafeSVG(editIcon)}
+                        ${oppositeTab === 'preview' ? unsafeSVG(previewIcon) : unsafeSVG(editIcon)}
                     </span>
                 </mwc-button>
             </section>
