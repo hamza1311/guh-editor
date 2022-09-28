@@ -29,7 +29,7 @@ import '@guh-md/editor';
 ### Properties/Attributes
 
 | Name          | Type                                          | Default            | Description                                                            |
-|---------------|-----------------------------------------------|--------------------|------------------------------------------------------------------------|
+| ------------- | --------------------------------------------- | ------------------ | ---------------------------------------------------------------------- |
 | `value`       | `string`                                      | `''`               | The value of the editor                                                |
 | `autoFocus`   | `boolean`                                     | `false`            | Indicates should the editor automatically have focus when it is loaded |
 | `readonly`    | `boolean`                                     | `false`            | Indicates should the user be able to interact with the editor          |
@@ -42,17 +42,18 @@ import '@guh-md/editor';
 ### Default extensions
 
 Following CodeMirror extensions are loaded by default:
-- `highlightSpecialChars`
-- `history`
-- `drawSelection`
-- `dropCursor`
-- `indentOnInput`
-- `syntaxHighlighting`
-- `bracketMatching`
-- `closeBrackets`
-- `autocompletion`
-- `highlightSelectionMatches`
-- `markdown`
+
+-   `highlightSpecialChars`
+-   `history`
+-   `drawSelection`
+-   `dropCursor`
+-   `indentOnInput`
+-   `syntaxHighlighting`
+-   `bracketMatching`
+-   `closeBrackets`
+-   `autocompletion`
+-   `highlightSelectionMatches`
+-   `markdown`
 
 #### Keymaps
 
@@ -79,11 +80,11 @@ export interface UploadedMedia {
 
 ### Styles
 
-The editor comes with usable styles set out of the box. It is recommended to use this styles instead of providing a custom theme if possible. 
+The editor comes with usable styles set out of the box. It is recommended to use this styles instead of providing a custom theme if possible.
 These styles can be customized with CSS variables:
 
 | Name                        | Default   | Description                             |
-|-----------------------------|-----------|-----------------------------------------|
+| --------------------------- | --------- | --------------------------------------- |
 | `--bg-color`                | `white`   | Background Color                        |
 | `--cm-bg-color`             | `white`   | Editor wrapper background color         |
 | `--editor-bg-color`         | `white`   | Editor background color                 |
@@ -92,7 +93,6 @@ These styles can be customized with CSS variables:
 | `--cm-initial-height`       | `18rem`   | Initial height of the editor            |
 | `--blockquote-border-color` | `#d0d7de` | Border color for quoted text            |
 | `--blockquote-color`        | `#24292f` | Color of quoted text                    |
-
 
 ## License
 

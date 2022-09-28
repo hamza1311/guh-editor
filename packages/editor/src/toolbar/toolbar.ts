@@ -58,23 +58,26 @@ export class Toolbar extends LitElement {
         const formatButtonClick = (label: string) => () =>
             this.dispatchCustomEvent('formatButtonClick', { button: label });
 
-        const formattingSection = this.tab === 'edit' ? html`
-            <section class="formatting">
-                <!--<button class="tooltip" title="Click to bold (ctrl + b)"></button>-->
-                <mwc-icon-button @click=${formatButtonClick('bold')}
-                    >${unsafeSVG(boldIcon)}</mwc-icon-button
-                >
-                <mwc-icon-button @click=${formatButtonClick('italics')}
-                    >${unsafeSVG(italicsIcon)}</mwc-icon-button
-                >
-                <mwc-icon-button @click=${formatButtonClick('code')}
-                    >${unsafeSVG(codeIcon)}</mwc-icon-button
-                >
-                <mwc-icon-button @click=${formatButtonClick('link')}
-                    >${unsafeSVG(linkIcon)}</mwc-icon-button
-                >
-            </section>
-        ` : html``
+        const formattingSection =
+            this.tab === 'edit'
+                ? html`
+                      <section class="formatting">
+                          <!--<button class="tooltip" title="Click to bold (ctrl + b)"></button>-->
+                          <mwc-icon-button @click=${formatButtonClick('bold')}
+                              >${unsafeSVG(boldIcon)}</mwc-icon-button
+                          >
+                          <mwc-icon-button @click=${formatButtonClick('italics')}
+                              >${unsafeSVG(italicsIcon)}</mwc-icon-button
+                          >
+                          <mwc-icon-button @click=${formatButtonClick('code')}
+                              >${unsafeSVG(codeIcon)}</mwc-icon-button
+                          >
+                          <mwc-icon-button @click=${formatButtonClick('link')}
+                              >${unsafeSVG(linkIcon)}</mwc-icon-button
+                          >
+                      </section>
+                  `
+                : html``;
 
         return html`
             <section class="tabs">

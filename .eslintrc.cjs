@@ -1,6 +1,5 @@
 module.exports = {
     root: true,
-    parser: '@typescript-eslint/parser',
     extends: [
         'eslint:recommended',
         'plugin:@typescript-eslint/recommended',
@@ -18,10 +17,6 @@ module.exports = {
             node: true,
         },
     },
-    parserOptions: {
-        sourceType: 'module',
-        ecmaVersion: 2020,
-    },
     env: {
         browser: true,
         es2020: true,
@@ -34,6 +29,7 @@ module.exports = {
                 sourceType: 'module',
                 project: './tsconfig.json',
                 tsconfigRootDir: __dirname,
+                ecmaVersion: 2020,
             },
             files: ['*.ts'],
             rules: {

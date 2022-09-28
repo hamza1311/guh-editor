@@ -1,59 +1,59 @@
 name: Build and Deploy to Pages
 
 on:
-  push:
-    branches: [ 'master' ]
+    push:
+        branches: ['master']
 
 permissions:
-  contents: read
+    contents: read
 
 concurrency:
-  group: 'pages'
-  cancel-in-progress: true
+    group: 'pages'
+    cancel-in-progress: true
 
 jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+    build:
+        name: Build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v2
+            - name: Setup Pages
+              uses: actions/configure-pages@v2
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'yarn'
+            - name: Install Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 16
+                  cache: 'yarn'
 
-      - name: Bootstrap
-        run: npx lerna bootstrap
+            - name: Bootstrap
+              run: npx lerna bootstrap
 
-      - name: Install and Build
-        run: yarn build
-        working-directory: packages/website
+            - name: Install and Build
+              run: yarn build
+              working-directory: packages/website
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: 'packages/website/build'
+            - name: Upload artifact
+              uses: actions/upload-pages-artifact@v1
+              with:
+                  path: 'packages/website/build'
 
-  deploy:
-    name: Deploy
-    needs: build
+    deploy:
+        name: Deploy
+        needs: build
 
-    permissions:
-      pages: write
-      id-token: write
+        permissions:
+            pages: write
+            id-token: write
 
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
 
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v1
+        runs-on: ubuntu-latest
+        steps:
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v1
