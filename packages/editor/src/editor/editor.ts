@@ -17,7 +17,6 @@ import {
     bracketMatching,
 } from '@codemirror/language';
 import { deleteLine, history, historyKeymap, standardKeymap } from '@codemirror/commands';
-import { searchKeymap, highlightSelectionMatches } from '@codemirror/search'; // 44KB
 import {
     autocompletion,
     completionKeymap,
@@ -32,6 +31,7 @@ import '../toolbar';
 import '../footer';
 import type { Tab } from '../toolbar';
 import editorStyles from './editor.scss?inline';
+import { MarkdownParser } from '../preview';
 
 export interface UploadedMedia {
     url: string;
@@ -48,7 +48,6 @@ export const DEFAULT_EXTENSIONS = [
     bracketMatching(),
     closeBrackets(),
     autocompletion(),
-    highlightSelectionMatches(),
     markdown({
         codeLanguages: languages,
         extensions: GFM,
@@ -56,7 +55,6 @@ export const DEFAULT_EXTENSIONS = [
     keymap.of([
         ...closeBracketsKeymap,
         ...standardKeymap,
-        ...searchKeymap,
         ...historyKeymap,
         ...completionKeymap,
     ]),
@@ -111,6 +109,9 @@ export class Editor extends LitElement {
 
     @property()
     hljsThemeHref = '//unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/github.min.css';
+
+    @property({ type: Function, attribute: false })
+    previewMarkdownParser?: MarkdownParser;
 
     private resizeObserver: ResizeObserver = new ResizeObserver((e) => {
         if (!this.editorView) {
@@ -401,6 +402,7 @@ export class Editor extends LitElement {
     render() {
         const preview = html`
             <guh-preview
+                .parser=${this.previewMarkdownParser}
                 .hljsThemeHref=${this.hljsThemeHref}
                 .markdown="${this.editorView?.state.doc.toString() ?? ''}"
             >

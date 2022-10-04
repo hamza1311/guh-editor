@@ -202,7 +202,12 @@ This line is only separated by a single newline, so it's a separate line in the 
 
         <script>
             const editor = document.getElementById('huh');
-            // editor.value = BASE_CONTENT.trim();
+            // editor.previewMarkdownParser = (md) => {
+            //     const div = document.createElement('div')
+            //     div.innerHTML = md
+            //     return [div.children]
+            // }
+            editor.value = BASE_CONTENT.trim();
             const sleep = (time) =>
                 new Promise((resolve) => {
                     setTimeout(() => resolve(), time);

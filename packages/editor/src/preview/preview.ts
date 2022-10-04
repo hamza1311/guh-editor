@@ -45,8 +45,8 @@ const defaultParser = async (markdown: string) => {
 
 @customElement('guh-preview')
 export class Preview extends LitElement {
-    @property({ type: Function })
-    parser: MarkdownParser = defaultParser;
+    @property({ type: Function, attribute: false })
+    parser?: MarkdownParser;
 
     @property({ noAccessor: true })
     markdown = '';
@@ -54,8 +54,12 @@ export class Preview extends LitElement {
     @property()
     hljsThemeHref = '';
 
+    get mdParser(): MarkdownParser {
+        return this.parser ?? defaultParser
+    }
+
     render() {
-        const parsed = this.parser(this.markdown);
+        const parsed = this.mdParser(this.markdown);
         return html`
             <link rel="stylesheet" href=${this.hljsThemeHref} />
             <div class="preview-wrapper">${until(parsed, html`<span>Loading...</span>`)}</div>

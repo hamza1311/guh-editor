@@ -6,6 +6,44 @@ $secondary-color: #e6eef9;
 $height: 2rem;
 $width: 5rem;
 
+button {
+    border: none;
+    border-radius: 0.75em;
+    font-size: 1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    background-color: transparent;
+    outline: none;
+    padding: 0.25em;
+
+    // ripple
+    background-position: center;
+    background-origin:padding-box;
+    transition: background 0.8s;
+
+    &.centered {
+        display: flex;
+        align-items: center;
+        gap: 0.3em;
+    }
+
+    &.rounded {
+        border-radius: 50%;
+        aspect-ratio: 1/1;
+        padding: 0.3em;
+    }
+
+    $darker-bg: rgba(0, 0, 0, 0.15);
+    &:hover {
+        background: $darker-bg radial-gradient(circle at center, transparent 1%, $darker-bg 1%) center/15000%;
+    }
+
+    &:active {
+        background-size: 100%;
+        transition: background 0s;
+    }
+}
+
 :host {
     display: flex;
     justify-content: space-between;
