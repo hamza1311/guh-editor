@@ -10,11 +10,12 @@ export default defineConfig({
             fileName: 'guh-react',
         },
         rollupOptions: {
-            external: ['react', 'react-dom'],
+            external: ['react', 'react-dom', '@guh-md/editor'],
             output: {
                 globals: {
                     react: 'React',
                     'react-dom': 'ReactDOM',
+                    '@guh-md/editor': 'guh-editor'
                 },
             },
         },
