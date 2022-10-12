@@ -192,13 +192,14 @@ This line is only separated by a single newline, so it's a separate line in the 
             <guh-editor
                 id="huh"
                 autoFocus="true"
+                tab='preview'
                 hljsThemeHref="//unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/atom-one-dark.min.css"
                 placeholder="summary"
             >
             </guh-editor>
         </div>
 
-        <button id="readonly-toggle">Toggle readonly</button>
+        <button id="readonly-toggle">add content</button>
 
         <script>
             const editor = document.getElementById('huh');
@@ -207,7 +208,6 @@ This line is only separated by a single newline, so it's a separate line in the 
             //     div.innerHTML = md
             //     return [div.children]
             // }
-            editor.value = BASE_CONTENT.trim();
             const sleep = (time) =>
                 new Promise((resolve) => {
                     setTimeout(() => resolve(), time);
@@ -228,8 +228,9 @@ This line is only separated by a single newline, so it's a separate line in the 
                 console.debug('change event', e.detail.value);
             });
             document.getElementById('readonly-toggle').addEventListener('click', () => {
-                const readonly = editor.readonly;
-                editor.readonly = !readonly;
+                // const readonly = editor.readonly;
+                // editor.readonly = !readonly;
+                editor.value = 'BASE_CONTENT.trim()';
             });
         </script>
     </body>

@@ -48,7 +48,7 @@ export class Preview extends LitElement {
     @property({ type: Function, attribute: false })
     parser?: MarkdownParser;
 
-    @property({ noAccessor: true })
+    @property()
     markdown = '';
 
     @property()
