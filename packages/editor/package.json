@@ -1,6 +1,6 @@
 {
     "name": "@guh-md/editor",
-    "version": "0.1.8",
+    "version": "0.1.9",
     "type": "module",
     "module": "dist/guh-md.js",
     "main": "./dist/guh-md.umd.js",
