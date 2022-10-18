@@ -9,7 +9,7 @@
     flex-direction: column;
     gap: 0.5rem;
 
-    min-height: 15rem;
+    min-height: var(--min-guh-preview-height, inherit);
     background-color: styles.$bg-color;
     padding: 0.5em;
 }
