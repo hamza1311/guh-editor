@@ -8,7 +8,7 @@
 :host {
     @include center-align;
     background-color: styles.$bg-color;
-    height: 2rem;
+    min-height: 2rem;
     padding: 0 0.5rem;
 
     font-size: 0.8rem;
